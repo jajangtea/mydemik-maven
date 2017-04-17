@@ -175,14 +175,15 @@ public class MenuUtama extends javax.swing.JFrame {
 		label_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-                try {
-                    FSurat fsurat;
-                    fsurat = new FSurat();
-                    fsurat.setVisible(rootPaneCheckingEnabled);
-                } catch (SQLException ex) {
-                    Logger.getLogger(MenuUtama.class.getName()).log(Level.SEVERE, null, ex);
-                }
-               
+                            try 
+                            {
+                                FSurat fsurat;
+                                fsurat = new FSurat();
+                                fsurat.setVisible(rootPaneCheckingEnabled);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MenuUtama.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                           
 			}
 		});
 		label_4.setToolTipText("Data Surat");
