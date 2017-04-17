@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 17, 2017 8:12:11 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entiti.mydemik.com.Mahasiswa" table="mahasiswa" catalog="mydemik" optimistic-lock="version">
+        <id name="idMahasiswa" type="java.lang.Integer">
+            <column name="idMahasiswa" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="prodi" class="entiti.mydemik.com.Prodi" fetch="select">
+            <column name="idProdi" not-null="true" />
+        </many-to-one>
+        <property name="nim" type="int">
+            <column name="nim" not-null="true" />
+        </property>
+        <property name="nama" type="string">
+            <column name="nama" length="250" not-null="true" />
+        </property>
+        <property name="alamat" type="string">
+            <column name="alamat" length="250" not-null="true" />
+        </property>
+        <property name="tlp" type="string">
+            <column name="tlp" length="15" not-null="true" />
+        </property>
+        <set name="surats" table="surat" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMahasiswa" not-null="true" />
+            </key>
+            <one-to-many class="entiti.mydemik.com.Surat" />
+        </set>
+    </class>
+</hibernate-mapping>
