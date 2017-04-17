@@ -16,6 +16,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -93,7 +94,7 @@ public class MenuUtama extends javax.swing.JFrame {
 			}
 		});
 		lblExit.setIcon(new ImageIcon(MenuUtama.class
-				.getResource("/images/running.png")));
+				.getResource("/images/exit.png")));
 		lblExit.setBounds(104, 249, 70, 65);
 		contentPane.add(lblExit);
 
@@ -101,14 +102,14 @@ public class MenuUtama extends javax.swing.JFrame {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-               //  JOptionPane.showMessageDialog(null, "Movie Rental App");
+                 JOptionPane.showMessageDialog(null, "Menu Help Belum Tersedia");
 //				FrmDVD fd = new FrmDVD();
 //				fd.setVisible(true);
 			}
 		});
-		label.setToolTipText("Data DVD");
+		label.setToolTipText("Help");
 		label.setIcon(new ImageIcon(MenuUtama.class
-				.getResource("/images/compose.png")));
+				.getResource("/images/help.png")));
 		label.setBounds(325, 172, 70, 65);
 		contentPane.add(label);
 
@@ -126,9 +127,9 @@ public class MenuUtama extends javax.swing.JFrame {
                 }
 			}
 		});
-		label_1.setToolTipText("Peminjam");
+		label_1.setToolTipText("Tahun Ajaran");
 		label_1.setIcon(new ImageIcon(MenuUtama.class
-				.getResource("/images/car.png")));
+				.getResource("/images/ta.png")));
 		label_1.setBounds(10, 172, 70, 65);
 		contentPane.add(label_1);
 
@@ -148,7 +149,7 @@ public class MenuUtama extends javax.swing.JFrame {
 		});
 		label_2.setToolTipText("Prodi");
 		label_2.setIcon(new ImageIcon(MenuUtama.class
-				.getResource("/images/tools.png")));
+				.getResource("/images/prodi.png")));
 		label_2.setBounds(224, 249, 70, 65);
 		contentPane.add(label_2);
 
@@ -199,7 +200,8 @@ public class MenuUtama extends javax.swing.JFrame {
 		contentPane.add(lblWall);
 		setShape(new Ellipse2D.Double(0, 0, 400, 400));
 		setLocationRelativeTo(null);
-        this.setTitle("Menu Utama");
+                this.setTitle("Menu Utama");
+                
     }
 
     /**
