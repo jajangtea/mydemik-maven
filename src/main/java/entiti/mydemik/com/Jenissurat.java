@@ -59,6 +59,11 @@ public class Jenissurat  implements java.io.Serializable {
         this.surats = surats;
     }
 
+    @Override
+    public String toString() {
+        return jenisSurat;
+    }
+
 
 
 

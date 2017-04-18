@@ -4,8 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mydemik?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">root</property>
+   
     <mapping resource="entiti/mydemik/com/Prodi.hbm.xml"/>
     <mapping resource="entiti/mydemik/com/Surat.hbm.xml"/>
     <mapping resource="entiti/mydemik/com/Keperluan.hbm.xml"/>

@@ -5,6 +5,13 @@
  */
 package util.mydemik.com;
 
+import form.mydemik.com.DBSetting;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 
@@ -16,7 +23,7 @@ import org.hibernate.SessionFactory;
  */
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     
     static {
         try {
@@ -30,7 +37,49 @@ public class HibernateUtil {
         }
     }
     
-    public static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() 
+    {
+        String dbUrl = null,user = null,pass = "";
+        try 
+        {
+            try 
+            {
+                
+                File file = new File("D:/file.txt");
+                if(file.exists()) 
+                { 
+                    FileReader fileReader = new FileReader(file);
+                    dbUrl = (String) FileUtils.readLines(file).get(0);
+                    user = (String) FileUtils.readLines(file).get(1);
+                    pass = (String) FileUtils.readLines(file).get(2);
+                    fileReader.close();
+                    System.out.println(user.toString());
+                }
+                else
+                {
+                    file.createNewFile();
+                    DBSetting db = new DBSetting();
+                    db.setVisible(true);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            AnnotationConfiguration conf = new AnnotationConfiguration().configure();
+            // <!-- Database connection settings -->
+            conf.setProperty("hibernate.connection.url", dbUrl);
+            conf.setProperty("hibernate.connection.username", user);
+            conf.setProperty("connection.password", pass);
+            sessionFactory=conf.buildSessionFactory();
+        } catch (Throwable ex) 
+        {
+          // Log exception!
+            throw new ExceptionInInitializerError(ex);
+        }
         return sessionFactory;
     }
+    
+//    public static SessionFactory getSessionFactory() {
+//        return sessionFactory;
+//    }
 }
