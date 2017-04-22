@@ -30,7 +30,7 @@ public class Bacafile {
 //                count++;
 //			}
             File file = new File("D:/file.txt");
-                FileReader fileReader = new FileReader(file);
+               FileReader fileReader = new FileReader(file);
             String dbUrl = (String) FileUtils.readLines(file).get(0);
             String user = (String) FileUtils.readLines(file).get(1);
             String pass = (String) FileUtils.readLines(file).get(2);

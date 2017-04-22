@@ -53,7 +53,7 @@ public class HibernateUtil {
                     user = (String) FileUtils.readLines(file).get(1);
                     pass = (String) FileUtils.readLines(file).get(2);
                     fileReader.close();
-                    System.out.println(user.toString());
+                    System.out.println(user);
                 }
                 else
                 {

@@ -59,6 +59,11 @@ public class Prodi  implements java.io.Serializable {
         this.mahasiswas = mahasiswas;
     }
 
+    @Override
+    public String toString() {
+        return namaProdi;
+    }
+
 
 
 

@@ -102,12 +102,17 @@ public class MenuUtama extends javax.swing.JFrame {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-                 JOptionPane.showMessageDialog(null, "Menu Help Belum Tersedia");
-//				FrmDVD fd = new FrmDVD();
-//				fd.setVisible(true);
+                            try 
+                            {
+                                 __EntryPerusahaan fd;
+                                fd = new __EntryPerusahaan();
+                                fd.setVisible(true);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MenuUtama.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 		});
-		label.setToolTipText("Help");
+		label.setToolTipText("Perusahaan");
 		label.setIcon(new ImageIcon(MenuUtama.class
 				.getResource("/images/help.png")));
 		label.setBounds(325, 172, 70, 65);
