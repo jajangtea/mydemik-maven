@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package form.mydemik.com;
+import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,7 +17,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -36,6 +36,9 @@ public class MenuUtama extends javax.swing.JFrame {
 	private final JLabel label_2;
 	private final JLabel label_3;
 	private final JLabel label_4;
+        private final JLabel lblTitle;
+        private final JLabel lblSubTitle;
+        private final JLabel lblSTTI;
 
     /**
      * Creates new form MenuUtama
@@ -75,6 +78,24 @@ public class MenuUtama extends javax.swing.JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+                
+                lblTitle = new JLabel("MIS");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("Droid Sans", Font.BOLD, 22));
+		lblTitle.setBounds(118, 20, 156, 29);
+		contentPane.add(lblTitle);
+                
+                lblSubTitle = new JLabel("Mail Information System");
+		lblSubTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSubTitle.setFont(new Font("Droid Sans", Font.BOLD, 12));
+		lblSubTitle.setBounds(118, 40, 156, 29);
+		contentPane.add(lblSubTitle);
+                
+                lblSTTI = new JLabel("STT INDONESIA");
+		lblSTTI.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSTTI.setFont(new Font("Droid Sans", Font.BOLD, 12));
+		lblSTTI.setBounds(118, 55, 156, 35);
+		contentPane.add(lblSTTI);
 
 		lbl = new JLabel("");
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -204,6 +225,7 @@ public class MenuUtama extends javax.swing.JFrame {
 		lblWall.setBounds(0, 0, 413, 407);
 		contentPane.add(lblWall);
 		setShape(new Ellipse2D.Double(0, 0, 400, 400));
+                
 		setLocationRelativeTo(null);
                 this.setTitle("Menu Utama");
                 
@@ -224,11 +246,11 @@ public class MenuUtama extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 409, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 306, Short.MAX_VALUE)
         );
 
         pack();
