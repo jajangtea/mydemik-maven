@@ -22,7 +22,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -36,6 +39,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,6 +55,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -1112,41 +1117,43 @@ public final class FSurat extends javax.swing.JFrame {
         }
         else if(idSurat!=0 && radakt.isSelected())
         {
-            URL namafile=FSurat.class.getResource("/laporan/s_aktif_kuliah.jasper");
-            System.out.println("tampilkan laporan");
-            int baris =jTSurat.getSelectedRow();
-            xsemesterTahun=fs.getSemesterTahun();
-            xtanggal=fs.getTanggal();
-            
-            Map parameters = new HashMap();
-//            
-            fs.getSurat(idSurat);
-            parameters.put("xsemesterTahun", xsemesterTahun);
-            parameters.put("xtanggal", xtanggal);
-            parameters.put("xnoSurat", fs.xnosurat);
-            parameters.put("xnim", fs.xnim);
-            parameters.put("xnama", fs.xnama);
-            parameters.put("xprodi", fs.xprodi);
-            parameters.put("xalamat", fs.xalamat);
-
-            try 
+            try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) 
             {
-                JasperPrint print = JasperFillManager.fillReport(namafile.getPath(), parameters, new JREmptyDataSource());
+                System.out.println("tampilkan laporan");
+                xsemesterTahun=fs.getSemesterTahun();
+                xtanggal=fs.getTanggal();
+            
+                Map parameters = new HashMap();
+//            
+                fs.getSurat(idSurat);
+            
+                parameters.put("header", ImageIO.read(new ByteArrayInputStream(JRLoader.loadBytes(inputStream))));
+                parameters.put("xsemesterTahun", xsemesterTahun);
+                parameters.put("xtanggal", xtanggal);
+                parameters.put("xnoSurat", fs.xnosurat);
+                parameters.put("xnim", fs.xnim);
+                parameters.put("xnama", fs.xnama);
+                parameters.put("xprodi", fs.xprodi);
+                parameters.put("xalamat", fs.xalamat);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/s_aktif_kuliah.jasper"), parameters, new JREmptyDataSource());
                 JasperExportManager.exportReportToPdfFile(print, "D:/aktif_kuliah_"+fs.xnim+"_"+fs.xnama+".pdf");
                 JasperViewer.viewReport(print,false);
-            } catch (JRException ex) 
+            } catch (JRException | IOException ex) 
             {
                JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
             }
         }
         else if(idSurat!=0 && radkpskripsi.isSelected())
         {     
-            URL namafile=FSurat.class.getResource("/laporan/s_kp_skripsi.jasper");
+           try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) 
+           {
+            //URL namafile=FSurat.class.getResource("/laporan/s_kp_skripsi.jasper");
             xsemesterTahun=fs.getSemesterTahun();
             xtanggal=fs.getTanggal();
             
             fs.getSurat(idSurat);
             Map parameters = new HashMap();
+            parameters.put("header", ImageIO.read(new ByteArrayInputStream(JRLoader.loadBytes(inputStream))));
             parameters.put("xnoSurat", fs.xnosurat);
             parameters.put("xnim", fs.xnim);
             parameters.put("xnama", fs.xnama);
@@ -1160,12 +1167,10 @@ public final class FSurat extends javax.swing.JFrame {
             parameters.put("xisipermohonan", xisipermohonan);
             xhal="Permohonan Penelitian "+fs.xjkps;
             parameters.put("xhal",xhal);
-            try 
-            {
-                JasperPrint print = JasperFillManager.fillReport(namafile.getPath(), parameters, new JREmptyDataSource());
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/s_kp_skripsi.jasper"), parameters, new JREmptyDataSource());
                 JasperExportManager.exportReportToPdfFile(print, "D:/aktif_kuliah_"+fs.xnim+"_"+fs.xnama+".pdf");
                 JasperViewer.viewReport(print,false);
-            } catch (JRException ex) {
+            } catch (JRException | IOException ex) {
                JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
             }
         }

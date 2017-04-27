@@ -33,14 +33,15 @@
 	<parameter name="xtanggal" class="java.lang.String"/>
 	<parameter name="xperusahaan" class="java.lang.String"/>
 	<parameter name="xhal" class="java.lang.String"/>
+        <parameter name="header" class="java.awt.Image"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="99" splitType="Stretch">
-			<image>
-				<reportElement x="315" y="0" width="240" height="65" uuid="8ff45acd-33c4-44c9-b0ae-a7e885d3d46c"/>
-				<imageExpression><![CDATA["header.jpg"]]></imageExpression>
+			<image scaleImage="FillFrame">
+				<reportElement x="299" y="0" width="256" height="67" uuid="9b2d2c53-658b-4003-b947-ec6ad4dea514"/>
+				<imageExpression><![CDATA[$P{header}]]></imageExpression>
 			</image>
 		</band>
 	</title>

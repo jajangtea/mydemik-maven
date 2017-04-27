@@ -1,0 +1,12 @@
+echo Menu::widget([
+	  					  'options' => [
+	  					    "id"  => "nav-mobile",
+	  					    "class" => "left side-nav"
+	  					  ],
+						    'items' => [
+						        ['label' => 'Home', 'url' => ['site/index']],
+						        ['label' => 'About', 'url' => ['site/about']],
+						        ['label' => 'Contact', 'url' => ['site/contact']],
+						        ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+						    ],
+		  				]);
