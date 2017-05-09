@@ -231,11 +231,7 @@ public class Fungsi {
         return namaBulan;
     }
     
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Fungsi f=new Fungsi();
-        System.out.println(f.hurufromawai(10));
-    }
+    
     
     public void setLebarKolom(JTable tbl) {
         int a;
@@ -325,6 +321,50 @@ public class Fungsi {
         TableColumnModel tcm =tbl.getColumnModel();
         tcm.removeColumn(tcm.getColumn(kolom));
     }
+    public String getAmlop(Integer idSurat){
+        SessionFactory sf=HibernateUtil.getSessionFactory();
+        Session s=sf.openSession();
+        Transaction tx = s.beginTransaction();
+        Query q = s.createQuery("FROM Surat where idSurat=:idSurat");
+        q.setParameter("idSurat",idSurat);
+        List resultList = q.list();
+        for(Object o : resultList) 
+        {
+            Surat sr = (Surat)o;
+            xalamat=sr.getPerusahaan().getAlamat();
+            xnama=sr.getMahasiswa().getNama();
+            xnim=sr.getMahasiswa().getNim();
+            xnosurat=sr.getNoSurat();
+            xprodi=sr.getMahasiswa().getProdi().getNamaProdi();
+            xtanggal=sr.getTanggalSurat().toString();
+            xjudul=sr.getJudul();
+            xperusahaan=sr.getPerusahaan().getNamaPerusahaan();
+            xjkps=sr.getJenissurat().getJenisSurat();
+        }
+        s.flush();
+        tx.commit();
+        s.close();
+        String ampl;
+        System.out.println(xjkps);
+        if(xjkps.equals("-"))
+        {
+            ampl="Kepada Yth Sdr/i:\n"+xnama+"/"+xnim+"\n"+xprodi.toUpperCase()+"\nDi - Tempat";
+            
+        }
+        else
+        {
+            ampl="Kepada Yth :\nPimpinan "+xperusahaan.toUpperCase()+"\n"+xalamat+"\nDi - Tempat";
+        }
+
+        return ampl;
+    }
+
+    public static void main(String[] args) {
+        // TODO code application logic here
+        Fungsi f=new Fungsi();
+        System.out.println(f.getAmlop(67));
+    }
+    
     
     
 }

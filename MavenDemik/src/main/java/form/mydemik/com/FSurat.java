@@ -544,6 +544,7 @@ public final class FSurat extends javax.swing.JFrame {
         btnClose = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnTujuan = new javax.swing.JButton();
+        btnCetakAmplop = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -799,6 +800,14 @@ public final class FSurat extends javax.swing.JFrame {
             }
         });
 
+        btnCetakAmplop.setText("Cetak Amplop");
+        btnCetakAmplop.setPreferredSize(new java.awt.Dimension(69, 25));
+        btnCetakAmplop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakAmplopActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -837,7 +846,9 @@ public final class FSurat extends javax.swing.JFrame {
                                 .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCetak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(444, 444, 444))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCetakAmplop, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(285, 285, 285))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jCPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
@@ -935,7 +946,9 @@ public final class FSurat extends javax.swing.JFrame {
                             .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addComponent(btnCetak, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCetak, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCetakAmplop, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(4, 4, 4)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1201,6 +1214,31 @@ public final class FSurat extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnTujuanActionPerformed
 
+    private void btnCetakAmplopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakAmplopActionPerformed
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+        
+        if (idSurat==0)
+        {
+            JOptionPane.showMessageDialog(this, "Pilih Surat yang akan dicetak");
+            
+        }
+        else
+        {
+            try 
+            {
+                Map parameters = new HashMap();
+                parameters.put("labelAmplop", fs.getAmlop(idSurat));
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/Amplop.jasper"), parameters, new JREmptyDataSource());
+                JasperViewer.viewReport(print,false);
+            } catch (JRException ex) 
+            {
+               JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+      
+    }//GEN-LAST:event_btnCetakAmplopActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1255,6 +1293,7 @@ private class ComboBoxListener implements ActionListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnCetak;
+    private javax.swing.JButton btnCetakAmplop;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnHapus;

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="abed43dc-65c2-43eb-b3e4-99aeff3dbcd3">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="288"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -154,14 +154,14 @@
 			<staticText>
 				<reportElement x="331" y="417" width="159" height="20" uuid="1634889d-4d8c-43d7-8dce-508764cf9c33"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="12" isUnderline="true"/>
+					<font fontName="Calibri" size="12" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Ade Winarni]]></text>
+				<text><![CDATA[Ade Winarni,MT]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="331" y="437" width="159" height="20" uuid="da540812-4364-4b5c-8b41-4a2d3ea8d807"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="12" isUnderline="false"/>
+					<font fontName="Calibri" size="12" isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Puket I Bidang Akademik]]></text>
 			</staticText>
