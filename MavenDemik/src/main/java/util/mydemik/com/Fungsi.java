@@ -5,6 +5,7 @@
  */
 package util.mydemik.com;
 
+import entiti.mydemik.com.Mahasiswa;
 import entiti.mydemik.com.Surat;
 import entiti.mydemik.com.Thajaran;
 import java.awt.Component;
@@ -31,7 +32,7 @@ import org.jdesktop.swingx.JXDatePicker;
  * @author User
  */
 public class Fungsi {
-    private Integer ta_aktif;
+    private Integer ta_aktif,idNIms;
     private String tahun,semester;
     private Date tgl;
     public String xnosurat,xnama,xalamat,xprodi,xsemesterTahun,xtanggal,xisipermohonan,xjudul,xperusahaan,xta,xjkps;
@@ -55,6 +56,34 @@ public class Fungsi {
             tx.commit();
             s.close();
             
+        }
+        catch (ClassCastException e) 
+        {
+            System.out.println("Err :" + e);
+        }
+        
+        return ta_aktif;
+    }
+    
+    public int getIdNIM(int nim) 
+    {
+        try
+        {
+            
+            SessionFactory sf=HibernateUtil.getSessionFactory();
+            Session s=sf.openSession();
+            Transaction tx = s.beginTransaction();
+            Query q = s.createQuery("FROM Mahasiswa where nim="+nim);
+            List resultList = q.list();
+            for(Object o : resultList) 
+            {
+                Mahasiswa tj = (Mahasiswa)o;
+                idNIms=tj.getIdMahasiswa();
+            }
+            s.flush();
+            tx.commit();
+            s.close();
+            return idNIms;
         }
         catch (ClassCastException e) 
         {

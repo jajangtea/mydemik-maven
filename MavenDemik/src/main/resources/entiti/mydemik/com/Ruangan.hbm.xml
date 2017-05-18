@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 3, 2017 9:29:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entiti.mydemik.com.Ruangan" table="ruangan" catalog="mydemik" optimistic-lock="version">
+        <id name="idRuangan" type="java.lang.Integer">
+            <column name="idRuangan" />
+            <generator class="identity" />
+        </id>
+        <property name="noRuang" type="string">
+            <column name="noRuang" length="200" />
+        </property>
+        <set name="jadwals" table="jadwal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idRuangan" />
+            </key>
+            <one-to-many class="entiti.mydemik.com.Jadwal" />
+        </set>
+    </class>
+</hibernate-mapping>

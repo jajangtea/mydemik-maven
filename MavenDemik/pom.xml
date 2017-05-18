@@ -69,6 +69,29 @@
             <version>4.2.4.RELEASE</version>
         </dependency>
         
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency>
+   <groupId>org.apache.poi</groupId>
+   <artifactId>poi</artifactId>
+   <version>3.9</version>
+</dependency>
+<dependency>
+   <groupId>xml-apis</groupId>
+   <artifactId>xml-apis</artifactId>
+   <version>1.4.01</version>
+</dependency>
+<dependency>
+   <groupId>org.apache.poi</groupId>
+   <artifactId>poi-ooxml</artifactId>
+   <version>3.9</version>
+   <exclusions>
+     <exclusion>
+       <artifactId>xml-apis</artifactId>
+       <groupId>xml-apis</groupId>
+     </exclusion>       
+   </exclusions>
+</dependency>
+        
         <!-- https://mvnrepository.com/artifact/org.swinglabs.swingx/swingx-all -->
         <dependency>
             <groupId>org.swinglabs.swingx</groupId>
@@ -105,7 +128,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.3.2</version>
         </dependency>
-        
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -174,4 +201,11 @@
       </plugin>
     </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
 </project>

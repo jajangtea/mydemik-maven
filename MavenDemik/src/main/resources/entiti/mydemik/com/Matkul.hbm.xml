@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 3, 2017 9:29:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entiti.mydemik.com.Matkul" table="matkul" catalog="mydemik" optimistic-lock="version">
+        <id name="idMatkul" type="java.lang.Integer">
+            <column name="idMatkul" />
+            <generator class="identity" />
+        </id>
+        <property name="kodeMatkul" type="string">
+            <column name="kodeMatkul" length="20" />
+        </property>
+        <property name="namaMatkul" type="string">
+            <column name="namaMatkul" length="300" />
+        </property>
+        <property name="sks" type="java.lang.Integer">
+            <column name="sks" />
+        </property>
+        <set name="jadwals" table="jadwal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMatkul" />
+            </key>
+            <one-to-many class="entiti.mydemik.com.Jadwal" />
+        </set>
+    </class>
+</hibernate-mapping>

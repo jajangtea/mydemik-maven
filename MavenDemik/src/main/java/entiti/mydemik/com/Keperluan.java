@@ -1,5 +1,5 @@
 package entiti.mydemik.com;
-// Generated Apr 17, 2017 8:12:10 AM by Hibernate Tools 4.3.1
+// Generated May 3, 2017 9:29:35 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -47,11 +47,6 @@ public class Keperluan  implements java.io.Serializable {
     
     public void setSurats(Set surats) {
         this.surats = surats;
-    }
-
-    @Override
-    public String toString() {
-        return keperluan;
     }
 
 

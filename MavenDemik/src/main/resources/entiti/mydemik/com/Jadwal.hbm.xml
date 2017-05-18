@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 3, 2017 9:29:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entiti.mydemik.com.Jadwal" table="jadwal" catalog="mydemik" optimistic-lock="version">
+        <id name="idJadwal" type="java.lang.Integer">
+            <column name="idJadwal" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="dosen" class="entiti.mydemik.com.Dosen" fetch="select">
+            <column name="idDosen" />
+        </many-to-one>
+        <many-to-one name="jenisujian" class="entiti.mydemik.com.Jenisujian" fetch="select">
+            <column name="idJenisUjian" />
+        </many-to-one>
+        <many-to-one name="matkul" class="entiti.mydemik.com.Matkul" fetch="select">
+            <column name="idMatkul" />
+        </many-to-one>
+        <many-to-one name="ruangan" class="entiti.mydemik.com.Ruangan" fetch="select">
+            <column name="idRuangan" />
+        </many-to-one>
+        <many-to-one name="thajaran" class="entiti.mydemik.com.Thajaran" fetch="select">
+            <column name="idThajaran" />
+        </many-to-one>
+        <property name="tanggal" type="date">
+            <column name="tanggal" length="10" />
+        </property>
+        <property name="jam" type="string">
+            <column name="jam" length="100" />
+        </property>
+        <set name="jadwalmhses" table="jadwalmhs" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idJadwal" />
+            </key>
+            <one-to-many class="entiti.mydemik.com.Jadwalmhs" />
+        </set>
+    </class>
+</hibernate-mapping>

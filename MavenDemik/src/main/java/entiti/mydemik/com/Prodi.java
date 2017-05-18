@@ -1,5 +1,5 @@
 package entiti.mydemik.com;
-// Generated Apr 17, 2017 8:12:10 AM by Hibernate Tools 4.3.1
+// Generated May 3, 2017 9:29:35 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -57,11 +57,6 @@ public class Prodi  implements java.io.Serializable {
     
     public void setMahasiswas(Set mahasiswas) {
         this.mahasiswas = mahasiswas;
-    }
-
-    @Override
-    public String toString() {
-        return namaProdi;
     }
 
 

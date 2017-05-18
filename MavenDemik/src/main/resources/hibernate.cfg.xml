@@ -4,14 +4,21 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-   
-    <mapping resource="entiti/mydemik/com/Prodi.hbm.xml"/>
-    <mapping resource="entiti/mydemik/com/Surat.hbm.xml"/>
-    <mapping resource="entiti/mydemik/com/Keperluan.hbm.xml"/>
-    <mapping resource="entiti/mydemik/com/Kategori.hbm.xml"/>
-    <mapping resource="entiti/mydemik/com/Thajaran.hbm.xml"/>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mydemik?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
     <mapping resource="entiti/mydemik/com/Jenissurat.hbm.xml"/>
-    <mapping resource="entiti/mydemik/com/Perusahaan.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Keperluan.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Ruangan.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Dosen.hbm.xml"/>
     <mapping resource="entiti/mydemik/com/Mahasiswa.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Kategori.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Prodi.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Thajaran.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Jenisujian.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Surat.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Matkul.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Jadwal.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Jadwalmhs.hbm.xml"/>
+    <mapping resource="entiti/mydemik/com/Perusahaan.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

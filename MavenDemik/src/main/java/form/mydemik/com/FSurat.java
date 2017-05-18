@@ -446,7 +446,7 @@ public final class FSurat extends javax.swing.JFrame {
             List mhs=q.list();
             if(txtNim.getText().equals(""))
             {
-                FMhs f =new FMhs();
+                __ListMahasiswa f =new __ListMahasiswa();
                 f.setVisible(rootPaneCheckingEnabled);
                 this.setVisible(false);
             }
@@ -456,7 +456,7 @@ public final class FSurat extends javax.swing.JFrame {
                 int dr=JOptionPane.showConfirmDialog(this, "Form Pencarian.", "Pertanyaan", dialogbtn);
                 if(dr==0)
                 {
-                    FMhs f =new FMhs();
+                    __ListMahasiswa f =new __ListMahasiswa();
                     f.setModalExclusionType(Dialog.ModalExclusionType.NO_EXCLUDE);
                     f.setVisible(rootPaneCheckingEnabled);
                     f.txtCari.setText("");
@@ -840,7 +840,7 @@ public final class FSurat extends javax.swing.JFrame {
                                 .addGap(444, 444, 444))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jCPerusahaan, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 521, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

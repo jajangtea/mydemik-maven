@@ -1,5 +1,5 @@
 package entiti.mydemik.com;
-// Generated Apr 17, 2017 8:12:10 AM by Hibernate Tools 4.3.1
+// Generated May 3, 2017 9:29:35 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -18,6 +18,7 @@ public class Mahasiswa  implements java.io.Serializable {
      private String alamat;
      private String tlp;
      private Set surats = new HashSet(0);
+     private Set jadwalmhses = new HashSet(0);
 
     public Mahasiswa() {
     }
@@ -30,13 +31,14 @@ public class Mahasiswa  implements java.io.Serializable {
         this.alamat = alamat;
         this.tlp = tlp;
     }
-    public Mahasiswa(Prodi prodi, int nim, String nama, String alamat, String tlp, Set surats) {
+    public Mahasiswa(Prodi prodi, int nim, String nama, String alamat, String tlp, Set surats, Set jadwalmhses) {
        this.prodi = prodi;
        this.nim = nim;
        this.nama = nama;
        this.alamat = alamat;
        this.tlp = tlp;
        this.surats = surats;
+       this.jadwalmhses = jadwalmhses;
     }
    
     public Integer getIdMahasiswa() {
@@ -87,6 +89,13 @@ public class Mahasiswa  implements java.io.Serializable {
     
     public void setSurats(Set surats) {
         this.surats = surats;
+    }
+    public Set getJadwalmhses() {
+        return this.jadwalmhses;
+    }
+    
+    public void setJadwalmhses(Set jadwalmhses) {
+        this.jadwalmhses = jadwalmhses;
     }
 
 

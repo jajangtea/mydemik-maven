@@ -5,15 +5,19 @@
  */
 package db.service.mydemik.com;
 
+import entiti.mydemik.com.Jadwal;
 import entiti.mydemik.com.Jenissurat;
 import entiti.mydemik.com.Keperluan;
+import entiti.mydemik.com.Matkul;
 import entiti.mydemik.com.Perusahaan;
 import entiti.mydemik.com.Prodi;
+import entiti.mydemik.com.Ruangan;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,13 +31,18 @@ public class SuratService {
     PreparedStatement preparedStatement;
     Jenissurat jns;
     Keperluan kpr;
+    Matkul mtk;
     Perusahaan prs;
+    Ruangan rng;
     Prodi prd;
+    Jadwal jdw;
     List<Jenissurat> Jenissurats=new ArrayList<>();
     List<Keperluan> keperluans=new ArrayList<>();
+    List<Matkul> matkuls=new ArrayList<>();
     List<Perusahaan> perusahaans=new ArrayList<>();
+    List<Ruangan> ruangans=new ArrayList<>();
     List<Prodi> prodis=new ArrayList<>();
-    
+    List<Jadwal> jadwals=new ArrayList<>();
     public SuratService(Connection connection){
         this.connection=connection;
     }
@@ -61,6 +70,18 @@ public class SuratService {
         return keperluans;
     }
     
+    public List<Matkul> getAllMatkul() throws SQLException{
+        preparedStatement=connection.prepareStatement("SELECT * FROM Matkul");
+        ResultSet rs=preparedStatement.executeQuery();
+        while(rs.next()){
+            mtk=new Matkul();
+            mtk.setIdMatkul(rs.getInt("idMatkul"));
+            mtk.setNamaMatkul(rs.getString("namaMatkul"));
+            matkuls.add(mtk);
+        }
+        return matkuls;
+    }
+    
     public List<Perusahaan> getAllPerusahaan() throws SQLException{
         preparedStatement=connection.prepareStatement("SELECT * FROM Perusahaan");
         ResultSet rs=preparedStatement.executeQuery();
@@ -73,6 +94,18 @@ public class SuratService {
         return perusahaans;
     }
     
+    public List<Ruangan> getAllRuangan() throws SQLException{
+        preparedStatement=connection.prepareStatement("SELECT * FROM Ruangan");
+        ResultSet rs=preparedStatement.executeQuery();
+        while(rs.next()){
+            rng=new Ruangan();
+            rng.setIdRuangan(rs.getInt("idRuangan"));
+            rng.setNoRuang(rs.getString("noRuang"));
+            ruangans.add(rng);
+        }
+        return ruangans;
+    }
+    
     public List<Prodi> getAllProdi() throws SQLException{
         preparedStatement=connection.prepareStatement("SELECT * FROM Prodi");
         ResultSet rs=preparedStatement.executeQuery();
@@ -83,5 +116,18 @@ public class SuratService {
             prodis.add(prd);
         }
         return prodis;
+    }
+    
+    public List<Jadwal> getAllJadwal(String date) throws SQLException{
+        preparedStatement=connection.prepareStatement("SELECT * FROM jadwal where tanggal='"+date+"'");
+        System.out.println("SELECT * FROM jadwal where tanggal="+date);
+        ResultSet rs=preparedStatement.executeQuery();
+        while(rs.next()){
+            jdw=new Jadwal();
+            jdw.setIdJadwal(rs.getInt("idJadwal"));
+            jdw.setJam(rs.getString("jam"));
+            jadwals.add(jdw);
+        }
+        return jadwals;
     }
 }
