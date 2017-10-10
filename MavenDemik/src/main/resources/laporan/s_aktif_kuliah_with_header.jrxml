@@ -36,7 +36,12 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="99" splitType="Stretch"/>
+		<band height="99" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="299" y="0" width="256" height="67" uuid="9b2d2c53-658b-4003-b947-ec6ad4dea514"/>
+				<imageExpression><![CDATA[$P{header}]]></imageExpression>
+			</image>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="25" splitType="Stretch">

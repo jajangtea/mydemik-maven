@@ -26,7 +26,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -74,24 +73,24 @@ public final class FSurat extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    Fungsi fs=new Fungsi();
+    Fungsi fs = new Fungsi();
     private JPanel contentPane;
     private JLabel lblWall;
-    Integer idmhs,idkat,idSurat=0;
-    
-    String xnosurat,xnama,xalamat,xprodi,xsemesterTahun,xtanggal,xisipermohonan,xhal,idjeniskpskripsi;
+    Integer idmhs, idkat, idSurat = 0;
+
+    String xnosurat, xnama, xalamat, xprodi, xsemesterTahun, xtanggal, xisipermohonan, xhal, idjeniskpskripsi;
     Integer xnim;
     Date tgl;
-    Fungsi nf=new Fungsi();
-  
-    SuratService  SuratService;
-    
+    Fungsi nf = new Fungsi();
+
+    SuratService SuratService;
+
     public FSurat() throws SQLException {
         initComponents();
         fillTable(jTSurat);
         //cetak();
-        Koneksi koneksi=new Koneksi();
-        SuratService=new SuratService(koneksi.getConnection());
+        Koneksi koneksi = new Koneksi();
+        SuratService = new SuratService(koneksi.getConnection());
         loadjenis();
         jCJenisKPSkripsi.setVisible(false);
         loadkeperluan();
@@ -101,9 +100,8 @@ public final class FSurat extends javax.swing.JFrame {
         lbtanggal.setText(nf.getTanggal());
         nf.getTampilTanggal(jXDatePicker1);
         jCJenisKPSkripsi.addActionListener(new ComboBoxListener());
-        if(radakt.isSelected())
-        {
-            idSurat=0;
+        if (radakt.isSelected()) {
+            idSurat = 0;
             jCJenisKPSkripsi.setVisible(false);
             jCPerusahaan.setVisible(false);
             lbtujuan.setVisible(false);
@@ -116,223 +114,197 @@ public final class FSurat extends javax.swing.JFrame {
         }
         tampilBtnCetak();
         btnTujuan.setVisible(false);
-        
+        jTSurat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTSurat.setRowHeight(25);
     }
-    
-    private void tampilBtnCetak()
-    {
-        if(idSurat!=0)
-        {
+
+    private void tampilBtnCetak() {
+        if (idSurat != 0) {
             btnCetak.setVisible(true);
-        }
-        else
-        {
+        } else {
             btnCetak.setVisible(false);
         }
     }
-    
-    private void kodeOtomatis()
-    {
-        try
-        {
-            SessionFactory sf=HibernateUtil.getSessionFactory();
-            Session s=sf.openSession();
+
+    private void kodeOtomatis() {
+        try {
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            Session s = sf.openSession();
             Transaction tx = s.beginTransaction();
-            String sql="select max(Left(noSurat,3)) from Surat";
+            String sql = "select max(Left(noSurat,3)) from Surat";
             Query q = s.createSQLQuery(sql);
-            if(q.uniqueResult()==null)
-            {
-                Fungsi f=new Fungsi();
-                int bulan=f.getBulan();
-                String rom=f.hurufromawai(bulan);
-                txtNomor.setText("001"+"/Puket-I/"+rom+"/"+f.getTahun());
-            }
-            else
-            {
+            if (q.uniqueResult() == null) {
+                Fungsi f = new Fungsi();
+                int bulan = f.getBulan();
+                String rom = f.hurufromawai(bulan);
+                txtNomor.setText("001" + "/Puket-I/" + rom + "/" + f.getTahun());
+            } else {
                 System.out.println(q.uniqueResult());
-                int i=Integer.parseInt(q.uniqueResult().toString());
-                String no = String.valueOf(i+1);
+                int i = Integer.parseInt(q.uniqueResult().toString());
+                String no = String.valueOf(i + 1);
                 int noLong = no.length();
-                for(int a=0;a<3-noLong;a++)
-                {
-                    no = "0"+no;
+                for (int a = 0; a < 3 - noLong; a++) {
+                    no = "0" + no;
                 }
-                
-                Fungsi f=new Fungsi();
-                int bulan=f.getBulan();
-                String rom=f.hurufromawai(bulan);
-                txtNomor.setText(no+"/Sket/Puket-I/"+rom+"/"+f.getTahun());
+
+                Fungsi f = new Fungsi();
+                int bulan = f.getBulan();
+                String rom = f.hurufromawai(bulan);
+                txtNomor.setText(no + "/Sket/Puket-I/" + rom + "/" + f.getTahun());
                 s.flush();
                 tx.commit();
                 s.close();
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) 
-        {
-                System.out.println(e);
-        }
-        
+
     }
 
-    private void loadjenis() throws SQLException{
+    private void loadjenis() throws SQLException {
         jCJenisKPSkripsi.removeAllItems();
-        List<Jenissurat> jnss=SuratService.getAllJenis();
-        for(Jenissurat mhs:jnss){
+        List<Jenissurat> jnss = SuratService.getAllJenis();
+        for (Jenissurat mhs : jnss) {
             jCJenisKPSkripsi.addItem(mhs);
         }
     }
-    private void loadkeperluan() throws SQLException{
+
+    private void loadkeperluan() throws SQLException {
         jCKeperluan.removeAllItems();
-        List<Keperluan> kper=SuratService.getAllKeperluan();
-        for(Keperluan mhs:kper){
+        List<Keperluan> kper = SuratService.getAllKeperluan();
+        for (Keperluan mhs : kper) {
             jCKeperluan.addItem(mhs);
         }
     }
-    private void loadperusahaan() throws SQLException{
+
+    private void loadperusahaan() throws SQLException {
         jCPerusahaan.removeAllItems();
-        List<Perusahaan> kper=SuratService.getAllPerusahaan();
-        for(Perusahaan prs:kper){
+        List<Perusahaan> kper = SuratService.getAllPerusahaan();
+        for (Perusahaan prs : kper) {
             jCPerusahaan.addItem(prs);
         }
     }
-    
-    public void cetak()
-    {
-        jTSurat.addMouseListener(new MouseAdapter() {
-        public void mousePressed(MouseEvent me) {
-            JTable table =(JTable) me.getSource();
-            Point p = me.getPoint();
-            int row = table.rowAtPoint(p);
-            if (me.getClickCount() == 2) {
-                int index = jTSurat.getSelectedRow();
-                TableModel model = jTSurat.getModel();
-                String value3 = model.getValueAt(index, 3).toString();
-                int dialogbtn = JOptionPane.YES_NO_OPTION;
-                int dr=JOptionPane.showConfirmDialog(null, "Cetak Surat", "Pertanyaan", dialogbtn);
-                if(dr==0)
-                {
-                    
-                    File namafile= new File("src/laporan/mydemik/com/s_aktif_kuliah.jasper"); 
-                    System.out.println("tampilkan laporan");
-                    int baris =jTSurat.getSelectedRow();
-                    Fungsi fs=new Fungsi();
-                    xsemesterTahun=fs.getSemesterTahun();
-                    xtanggal=fs.getTanggal();
-                    xisipermohonan=fs.getPermohonan_kp_skripsi(xnama, jCJenisKPSkripsi.getSelectedItem().toString(), xnama);
-                    idSurat = (Integer)   jTSurat.getModel().getValueAt(baris, 1);
-                    xnosurat=(String) jTSurat.getModel().getValueAt(baris, 2);
-                    xnim= (Integer) jTSurat.getModel().getValueAt(baris, 3);
-                    xnama=(String) jTSurat.getModel().getValueAt(baris, 4);
-                    xprodi=(String) jTSurat.getModel().getValueAt(baris, 6);
-                    xalamat=(String) jTSurat.getModel().getValueAt(baris, 8);
-                   
-                    
-                    System.out.println(idSurat);
-                    System.out.println(xnosurat);
-                    System.out.println(xnim);
-                    System.out.println(xnama);
-                    System.out.println(xprodi);
-                    System.out.println(xalamat);
 
-                    Map parameters = new HashMap();
-                    parameters.put("xnoSurat", xnosurat);
-                    parameters.put("xnim", xnim);
-                    parameters.put("xnama", xnama);
-                    parameters.put("xprodi", xprodi);
-                    parameters.put("xalamat", xalamat);
-                    parameters.put("xsemesterTahun", xsemesterTahun);
-                    parameters.put("xtanggal", xtanggal);
-                    parameters.put("xisipermohonan", xisipermohonan);
-                    //parameters.put("field1", xnim);
-                      
-                    try 
-                    {
-                        JasperPrint print = JasperFillManager.fillReport(namafile.getPath(), parameters, new JREmptyDataSource());
-                        JasperViewer.viewReport(print);
-                    } catch (JRException ex) {
-                       JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
+    public void cetak() {
+        jTSurat.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getClickCount() == 2) {
+                    int index = jTSurat.getSelectedRow();
+                    TableModel model = jTSurat.getModel();
+                    String value3 = model.getValueAt(index, 3).toString();
+                    int dialogbtn = JOptionPane.YES_NO_OPTION;
+                    int dr = JOptionPane.showConfirmDialog(null, "Cetak Surat", "Pertanyaan", dialogbtn);
+                    if (dr == 0) {
+
+                        File namafile = new File("src/laporan/mydemik/com/s_aktif_kuliah.jasper");
+                        System.out.println("tampilkan laporan");
+                        int baris = jTSurat.getSelectedRow();
+                        Fungsi fs = new Fungsi();
+                        xsemesterTahun = fs.getSemesterTahun();
+                        xtanggal = fs.getTanggal();
+                        xisipermohonan = fs.getPermohonan_kp_skripsi(xnama, jCJenisKPSkripsi.getSelectedItem().toString(), xnama);
+                        idSurat = (Integer) jTSurat.getModel().getValueAt(baris, 1);
+                        xnosurat = (String) jTSurat.getModel().getValueAt(baris, 2);
+                        xnim = (Integer) jTSurat.getModel().getValueAt(baris, 3);
+                        xnama = (String) jTSurat.getModel().getValueAt(baris, 4);
+                        xprodi = (String) jTSurat.getModel().getValueAt(baris, 6);
+                        xalamat = (String) jTSurat.getModel().getValueAt(baris, 8);
+
+                        System.out.println(idSurat);
+                        System.out.println(xnosurat);
+                        System.out.println(xnim);
+                        System.out.println(xnama);
+                        System.out.println(xprodi);
+                        System.out.println(xalamat);
+
+                        Map parameters = new HashMap();
+                        parameters.put("xnoSurat", xnosurat);
+                        parameters.put("xnim", xnim);
+                        parameters.put("xnama", xnama);
+                        parameters.put("xprodi", xprodi);
+                        parameters.put("xalamat", xalamat);
+                        parameters.put("xsemesterTahun", xsemesterTahun);
+                        parameters.put("xtanggal", xtanggal);
+                        parameters.put("xisipermohonan", xisipermohonan);
+                        //parameters.put("field1", xnim);
+
+                        try {
+                            JasperPrint print = JasperFillManager.fillReport(namafile.getPath(), parameters, new JREmptyDataSource());
+                            JasperViewer.viewReport(print);
+                        } catch (JRException ex) {
+                            JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex, "Cetak Laporan", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        txtNim.setText("");
+                        txtNim.requestFocus();
                     }
                 }
-                else
-                {
-                   txtNim.setText("");
-                   txtNim.requestFocus();
-                }
             }
-        }
-    });
+        });
     }
 
-    private void alignCenter(JTable tbl,int kolom)
-    {
-        DefaultTableCellRenderer centerRenderer=new DefaultTableCellRenderer();
+    private void alignCenter(JTable tbl, int kolom) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tbl.getColumnModel().getColumn(kolom).setCellRenderer(centerRenderer);
     }
-    
-    private void headerAlignCenter(JTable tbl)
-    {
-        ((DefaultTableCellRenderer)tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+    private void headerAlignCenter(JTable tbl) {
+        ((DefaultTableCellRenderer) tbl.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
     }
-    
-    private void alignRight(JTable tbl,int kolom)
-    {
-        DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
+
+    private void alignRight(JTable tbl, int kolom) {
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
         tbl.getColumnModel().getColumn(kolom).setCellRenderer(rightRenderer);
     }
-    
-    private void hideColumn(JTable tbl,int kolom)
-    {
-        TableColumnModel tcm =tbl.getColumnModel();
+
+    private void hideColumn(JTable tbl, int kolom) {
+        TableColumnModel tcm = tbl.getColumnModel();
         tcm.removeColumn(tcm.getColumn(kolom));
     }
-    
-    private void boldHeader(JTable tbl,int ukuran)
-    {
-       // tbl.getTableHeader().setFont(new Font("SanSerif",Font.ITALIC,12));
-        JTableHeader header=tbl.getTableHeader();
-        header.setFont(new Font("Dialog",Font.BOLD,ukuran));
+
+    private void boldHeader(JTable tbl, int ukuran) {
+        // tbl.getTableHeader().setFont(new Font("SanSerif",Font.ITALIC,12));
+        JTableHeader header = tbl.getTableHeader();
+        header.setFont(new Font("Dialog", Font.BOLD, ukuran));
     }
-    public void loacComboKeperluan(JComboBox jk)
-    {
+
+    public void loacComboKeperluan(JComboBox jk) {
         try {
-            SessionFactory sf=HibernateUtil.getSessionFactory();
-            Session s=sf.openSession();
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            Session s = sf.openSession();
             Transaction tx = s.beginTransaction();
             Query q = s.createQuery("FROM Keperluan");
             List resultList = q.list();
-            for(Object o : resultList) 
-            {
-                Keperluan sr = (Keperluan)o;
+            for (Object o : resultList) {
+                Keperluan sr = (Keperluan) o;
                 jk.addItem(sr.getKeperluan());
             }
             s.flush();
             tx.commit();
             s.close();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
-    private void fillTable(final JTable table) 
-    {
-        try
-        {
-            int count=1;
-            SessionFactory sf=HibernateUtil.getSessionFactory();
-            Session s=sf.openSession();
+
+    private void fillTable(final JTable table) {
+        try {
+            int count = 1;
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            Session s = sf.openSession();
             Transaction tx = s.beginTransaction();
             Query q;
-            if(radakt.isSelected())
-            {
-                String q1="FROM Surat where idJenis=1";
+            if (radakt.isSelected()) {
+                String q1 = "FROM Surat where idJenis=1";
                 q = s.createQuery(q1);
-            }
-            else
-            {
-                String q2="FROM Surat where idJenis<>1";
+            } else {
+                String q2 = "FROM Surat where idJenis<>1";
                 q = s.createQuery(q2);
             }
             List resultList = q.list();
@@ -345,20 +317,16 @@ public final class FSurat extends javax.swing.JFrame {
             tableHeaders.add("Nama");
             tableHeaders.add("Telepon");
             tableHeaders.add("Prodi");
-            tableHeaders.add("Tanggal Surat"); 
-            tableHeaders.add("Alamat");
-            
-            if(radkpskripsi.isSelected())
-            {
+            tableHeaders.add("Tanggal Surat");
+
+            if (radkpskripsi.isSelected()) {
+                tableHeaders.add("Judul");
                 tableHeaders.add("Tujuan");
-            }
-            else
-            {
+            } else {
                 tableHeaders.add("Keperluan");
             }
-            for(Object o : resultList) 
-            {
-                Surat sr = (Surat)o;
+            for (Object o : resultList) {
+                Surat sr = (Surat) o;
                 Vector<Object> oneRow = new Vector<Object>();
                 oneRow.add(count);
                 oneRow.add(sr.getIdSurat());
@@ -368,14 +336,11 @@ public final class FSurat extends javax.swing.JFrame {
                 oneRow.add(sr.getMahasiswa().getTlp());
                 oneRow.add(sr.getMahasiswa().getProdi().getNamaProdi());
                 oneRow.add(sr.getTanggalSurat().toString());
-                oneRow.add(sr.getMahasiswa().getAlamat());
-                if(radkpskripsi.isSelected())
-                {
+                if (radkpskripsi.isSelected()) {
+                    oneRow.add(sr.getJudul().toString());
                     oneRow.add(sr.getPerusahaan().getNamaPerusahaan());
-                }
-                else
-                {
-                     oneRow.add(sr.getKeperluan().getKeperluan());
+                } else {
+                    oneRow.add(sr.getKeperluan().getKeperluan());
                 }
                 count++;
                 tableData.add(oneRow);
@@ -388,33 +353,23 @@ public final class FSurat extends javax.swing.JFrame {
 //            hideColumn(jTSurat, 10);
             hideColumn(jTSurat, 1);
             hideColumn(jTSurat, 2);
-            boldHeader(jTSurat,12);
+            boldHeader(jTSurat, 12);
             s.flush();
             tx.commit();
             s.close();
             //jTSurat.setEditingRow(false);
-            
-
             jTSurat.setDefaultEditor(Object.class, null);
-
-
-           
+        } catch (ClassCastException e) {
+            e.printStackTrace();
         }
-        catch (ClassCastException e) 
-        {
-                e.printStackTrace();
-        }
-        
+
     }
-    
-    private void Hapus(int hps) 
-    {
-        try
-        {
-            if (JOptionPane.showConfirmDialog(null,"Anda Yakin ? ","Konfirmasi" , JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-            {
-                SessionFactory sf=HibernateUtil.getSessionFactory();
-                Session s=sf.openSession();
+
+    private void Hapus(int hps) {
+        try {
+            if (JOptionPane.showConfirmDialog(null, "Anda Yakin ? ", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                SessionFactory sf = HibernateUtil.getSessionFactory();
+                Session s = sf.openSession();
                 Transaction tx = s.beginTransaction();
 
                 Query q = s.createQuery("Delete From Surat where idSurat=:idSurat");
@@ -424,64 +379,51 @@ public final class FSurat extends javax.swing.JFrame {
                 s.flush();
                 s.close();
             }
-        }
-        catch (ClassCastException e) 
-        {
+        } catch (ClassCastException e) {
             System.out.println("Err :" + e);
         }
     }
- 
-    public final void cari (final String nim) 
-    {
-        try
-        {
-            SessionFactory sf=HibernateUtil.getSessionFactory();
-            Session s=sf.openSession();
+
+    public final void cari(final String nim) {
+        try {
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            Session s = sf.openSession();
             Transaction tx = s.beginTransaction();
-           // String sql="FROM Barang b where b.kodeBarang=:kodeBarang";
-            String sql="select * from mahasiswa where nim=:nim";
+            // String sql="FROM Barang b where b.kodeBarang=:kodeBarang";
+            String sql = "select * from mahasiswa where nim=:nim";
             Query q = s.createSQLQuery(sql);
             q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
             q.setParameter("nim", nim);
-            List mhs=q.list();
-            if(txtNim.getText().equals(""))
-            {
-                FMhs f =new FMhs();
+            List mhs = q.list();
+            if (txtNim.getText().equals("")) {
+                FMhs f = new FMhs();
                 f.setVisible(rootPaneCheckingEnabled);
                 this.setVisible(false);
-            }
-            else if (mhs.isEmpty())
-            {
+            } else if (mhs.isEmpty()) {
                 int dialogbtn = JOptionPane.YES_NO_OPTION;
-                int dr=JOptionPane.showConfirmDialog(this, "Form Pencarian.", "Pertanyaan", dialogbtn);
-                if(dr==0)
-                {
-                    FMhs f =new FMhs();
+                int dr = JOptionPane.showConfirmDialog(this, "Form Pencarian.", "Pertanyaan", dialogbtn);
+                if (dr == 0) {
+                    FMhs f = new FMhs();
                     f.setModalExclusionType(Dialog.ModalExclusionType.NO_EXCLUDE);
                     f.setVisible(rootPaneCheckingEnabled);
                     f.txtCari.setText("");
                     f.txtCari.requestFocus();
                     this.setVisible(false);
+                } else {
+                    txtNim.setText("");
+                    txtNim.requestFocus();
                 }
-                else
-                {
-                   txtNim.setText("");
-                   txtNim.requestFocus();
-               }
-                
-            }
-            else
-            {
-                for (Object br : mhs )
-                {
-                    Map row = (Map)br;
-                    idmhs=Integer.parseInt(row.get("idMahasiswa").toString());
+
+            } else {
+                for (Object br : mhs) {
+                    Map row = (Map) br;
+                    idmhs = Integer.parseInt(row.get("idMahasiswa").toString());
                     lbNim.setText(row.get("nim").toString());
                     lbNama.setText(row.get("nama").toString());
                     lbTlp.setText(row.get("tlp").toString());
                     lbAlamat.setText(row.get("alamat").toString());
-                    
-                   // a=Float.parseFloat(row.get("Harga").toString());
+
+                    // a=Float.parseFloat(row.get("Harga").toString());
                     //lbHarga.setText(NumberFormat.getNumberInstance().format(a));
                     //txtJml.requestFocus();
                 }
@@ -489,10 +431,8 @@ public final class FSurat extends javax.swing.JFrame {
                 tx.commit();
                 s.close();
             }
-        }
-        catch (Exception e) 
-        {
-                System.out.println(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -961,9 +901,8 @@ public final class FSurat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
-        try 
-        {
-           
+        try {
+
             cari(txtNim.getText());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
@@ -972,53 +911,46 @@ public final class FSurat extends javax.swing.JFrame {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
-        SessionFactory sf=HibernateUtil.getSessionFactory();
-        Session s=sf.openSession();
-        Surat sr=new Surat();
-        Jenissurat jns=new Jenissurat();
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        Surat sr = new Surat();
+        Jenissurat jns = new Jenissurat();
         Mahasiswa mhs = new Mahasiswa();
         Keperluan prl = new Keperluan();
-        Perusahaan prs=new Perusahaan();
-        Thajaran t=new Thajaran();
-        Kategori kat=new Kategori();
-        Fungsi fs=new Fungsi();
-        
+        Perusahaan prs = new Perusahaan();
+        Thajaran t = new Thajaran();
+        Kategori kat = new Kategori();
+        Fungsi fs = new Fungsi();
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
-        System.out.println(dateFormat.format(cal.getTime())); 
-        
-        
-        Keperluan k=(Keperluan) jCKeperluan.getSelectedItem();
-        Jenissurat j=(Jenissurat) jCJenisKPSkripsi.getSelectedItem();
+        System.out.println(dateFormat.format(cal.getTime()));
+
+        Keperluan k = (Keperluan) jCKeperluan.getSelectedItem();
+        Jenissurat j = (Jenissurat) jCJenisKPSkripsi.getSelectedItem();
         Perusahaan p = (Perusahaan) jCPerusahaan.getSelectedItem();
-        
+
         sr.setJenissurat(jns);
         sr.setKeperluan(prl);
         sr.setPerusahaan(prs);
-        
+
         jns.setIdJenis(j.getIdJenis());
         prl.setIdKeperluan(k.getIdKeperluan());
         prs.setIdPerusahaan(p.getIdPerusahaan());
-        
-       
-        if(jXDatePicker1.getDate()==null)
-        {
-           
-            try 
-            {
-                tgl=dateFormat.parse(dateFormat.format(cal.getTime()).toString());
+
+        if (jXDatePicker1.getDate() == null) {
+
+            try {
+                tgl = dateFormat.parse(dateFormat.format(cal.getTime()).toString());
                 sr.setTanggalSurat(tgl);
                 jXDatePicker1.setDate(tgl);
-            } catch (ParseException ex) 
-            {
+            } catch (ParseException ex) {
                 System.out.println(ex);
             }
+        } else {
+            sr.setTanggalSurat(jXDatePicker1.getDate());
         }
-        else
-        {
-              sr.setTanggalSurat(jXDatePicker1.getDate());
-        }
-        Date sekarang =new Date();
+        Date sekarang = new Date();
         sr.setTanggalBuat(sekarang);
         sr.setMahasiswa(mhs);
         mhs.setIdMahasiswa(idmhs);
@@ -1037,7 +969,7 @@ public final class FSurat extends javax.swing.JFrame {
         sr.setThajaran(t);
         t.setIdThajaran(fs.getTa());
         sr.setJudul(txtJudul.getText());
-        Transaction tx=s.beginTransaction();
+        Transaction tx = s.beginTransaction();
         s.saveOrUpdate(sr);
         tx.commit();
         s.flush();
@@ -1074,9 +1006,9 @@ public final class FSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_jCPerusahaanActionPerformed
 
     private void jTSuratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTSuratMouseClicked
-        int baris =jTSurat.getSelectedRow();
-        
-        idSurat = (Integer)   jTSurat.getModel().getValueAt(baris, 1);
+        int baris = jTSurat.getSelectedRow();
+
+        idSurat = (Integer) jTSurat.getModel().getValueAt(baris, 1);
         tampilBtnCetak();
 //        xnosurat=(String) jTSurat.getModel().getValueAt(baris, 2);
 //        xnim= (Integer) jTSurat.getModel().getValueAt(baris, 3);
@@ -1093,7 +1025,7 @@ public final class FSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_jTSuratMouseClicked
 
     private void radkpskripsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radkpskripsiActionPerformed
-        idSurat=0;
+        idSurat = 0;
         jCJenisKPSkripsi.setVisible(true);
         jCPerusahaan.setVisible(true);
         lbtujuan.setVisible(true);
@@ -1107,7 +1039,7 @@ public final class FSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_radkpskripsiActionPerformed
 
     private void radaktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radaktActionPerformed
-        idSurat=0;
+        idSurat = 0;
         jCJenisKPSkripsi.setVisible(false);
         jCPerusahaan.setVisible(false);
         lbtujuan.setVisible(false);
@@ -1122,24 +1054,20 @@ public final class FSurat extends javax.swing.JFrame {
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
         // TODO add your handling code here:
-        
-        if (idSurat==0)
-        {
+
+        if (idSurat == 0) {
             JOptionPane.showMessageDialog(this, "Pilih Surat yang akan dicetak");
-            
-        }
-        else if(idSurat!=0 && radakt.isSelected())
-        {
-            try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) 
-            {
+
+        } else if (idSurat != 0 && radakt.isSelected()) {
+            try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) {
                 System.out.println("tampilkan laporan");
-                xsemesterTahun=fs.getSemesterTahun();
-                xtanggal=fs.getTanggal();
-            
+                xsemesterTahun = fs.getSemesterTahun();
+                xtanggal = fs.getTanggal();
+
                 Map parameters = new HashMap();
 //            
                 fs.getSurat(idSurat);
-            
+
                 parameters.put("header", ImageIO.read(new ByteArrayInputStream(JRLoader.loadBytes(inputStream))));
                 parameters.put("xsemesterTahun", xsemesterTahun);
                 parameters.put("xtanggal", xtanggal);
@@ -1149,46 +1077,42 @@ public final class FSurat extends javax.swing.JFrame {
                 parameters.put("xprodi", fs.xprodi);
                 parameters.put("xalamat", fs.xalamat);
                 JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/s_aktif_kuliah.jasper"), parameters, new JREmptyDataSource());
-                JasperExportManager.exportReportToPdfFile(print, "D:/aktif_kuliah_"+fs.xnim+"_"+fs.xnama+".pdf");
-                JasperViewer.viewReport(print,false);
-            } catch (JRException | IOException ex) 
-            {
-               JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else if(idSurat!=0 && radkpskripsi.isSelected())
-        {     
-           try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) 
-           {
-            //URL namafile=FSurat.class.getResource("/laporan/s_kp_skripsi.jasper");
-            xsemesterTahun=fs.getSemesterTahun();
-            xtanggal=fs.getTanggal();
-            
-            fs.getSurat(idSurat);
-            Map parameters = new HashMap();
-            parameters.put("header", ImageIO.read(new ByteArrayInputStream(JRLoader.loadBytes(inputStream))));
-            parameters.put("xnoSurat", fs.xnosurat);
-            parameters.put("xnim", fs.xnim);
-            parameters.put("xnama", fs.xnama);
-            parameters.put("xprodi", fs.xprodi);
-            parameters.put("xalamat", fs.xalamat);
-            parameters.put("xsemesterTahun", xsemesterTahun);
-            parameters.put("xtanggal", xtanggal);
-            parameters.put("xjudul", fs.xjudul);
-            parameters.put("xperusahaan", fs.xperusahaan);
-            xisipermohonan=fs.getPermohonan_kp_skripsi(fs.xjkps,fs.xjudul ,fs.xperusahaan);
-            parameters.put("xisipermohonan", xisipermohonan);
-            xhal="Permohonan Penelitian "+fs.xjkps;
-            parameters.put("xhal",xhal);
-                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/s_kp_skripsi.jasper"), parameters, new JREmptyDataSource());
-                JasperExportManager.exportReportToPdfFile(print, "D:/aktif_kuliah_"+fs.xnim+"_"+fs.xnama+".pdf");
-                JasperViewer.viewReport(print,false);
+                JasperExportManager.exportReportToPdfFile(print, "D:/arsip/" + fs.xnim + "_" + fs.xnama + ".pdf");
+                JasperViewer.viewReport(print, false);
             } catch (JRException | IOException ex) {
-               JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex, "Cetak Laporan", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (idSurat != 0 && radkpskripsi.isSelected()) {
+            try (InputStream inputStream = FSurat.class.getClassLoader().getResourceAsStream("laporan/header.jpg")) {
+                //URL namafile=FSurat.class.getResource("/laporan/s_kp_skripsi.jasper");
+                xsemesterTahun = fs.getSemesterTahun();
+                xtanggal = fs.getTanggal();
+
+                fs.getSurat(idSurat);
+                Map parameters = new HashMap();
+                parameters.put("header", ImageIO.read(new ByteArrayInputStream(JRLoader.loadBytes(inputStream))));
+                parameters.put("xnoSurat", fs.xnosurat);
+                parameters.put("xnim", fs.xnim);
+                parameters.put("xnama", fs.xnama);
+                parameters.put("xprodi", fs.xprodi);
+                parameters.put("xalamat", fs.xalamat);
+                parameters.put("xsemesterTahun", xsemesterTahun);
+                parameters.put("xtanggal", xtanggal);
+                parameters.put("xjudul", fs.xjudul);
+                parameters.put("xperusahaan", fs.xperusahaan);
+                xisipermohonan = fs.getPermohonan_kp_skripsi(fs.xjkps, fs.xjudul, fs.xperusahaan);
+                parameters.put("xisipermohonan", xisipermohonan);
+                xhal = "Permohonan Penelitian " + fs.xjkps;
+                parameters.put("xhal", xhal);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/s_kp_skripsi.jasper"), parameters, new JREmptyDataSource());
+                JasperExportManager.exportReportToPdfFile(print, "D:/arsip/" + fs.xnim + "_" + fs.xnama + ".pdf");
+                JasperViewer.viewReport(print, false);
+            } catch (JRException | IOException ex) {
+                JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex, "Cetak Laporan", JOptionPane.ERROR_MESSAGE);
             }
         }
-       
-        
+
+
     }//GEN-LAST:event_btnCetakActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -1211,32 +1135,27 @@ public final class FSurat extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(FSurat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnTujuanActionPerformed
 
     private void btnCetakAmplopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakAmplopActionPerformed
         // TODO add your handling code here:
-                // TODO add your handling code here:
-        
-        if (idSurat==0)
-        {
+        // TODO add your handling code here:
+
+        if (idSurat == 0) {
             JOptionPane.showMessageDialog(this, "Pilih Surat yang akan dicetak");
-            
-        }
-        else
-        {
-            try 
-            {
+
+        } else {
+            try {
                 Map parameters = new HashMap();
                 parameters.put("labelAmplop", fs.getAmlop(idSurat));
                 JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/laporan/Amplop.jasper"), parameters, new JREmptyDataSource());
-                JasperViewer.viewReport(print,false);
-            } catch (JRException ex) 
-            {
-               JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex,"Cetak Laporan",JOptionPane.ERROR_MESSAGE);
+                JasperViewer.viewReport(print, false);
+            } catch (JRException ex) {
+                JOptionPane.showMessageDialog(null, "Gagal Membuka Laporan" + ex, "Cetak Laporan", JOptionPane.ERROR_MESSAGE);
             }
         }
-      
+
     }//GEN-LAST:event_btnCetakAmplopActionPerformed
 
     /**
@@ -1277,19 +1196,19 @@ public final class FSurat extends javax.swing.JFrame {
             }
         });
     }
-private class ComboBoxListener implements ActionListener {
-        
 
-    public ComboBoxListener() {
-    }
+    private class ComboBoxListener implements ActionListener {
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        Jenissurat mahasiswa=(Jenissurat) jCJenisKPSkripsi.getSelectedItem();
-            idjeniskpskripsi=(mahasiswa.getJenisSurat());
-            System.out.println("xxx"+idjeniskpskripsi);
+        public ComboBoxListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            Jenissurat mahasiswa = (Jenissurat) jCJenisKPSkripsi.getSelectedItem();
+            idjeniskpskripsi = (mahasiswa.getJenisSurat());
+            System.out.println("xxx" + idjeniskpskripsi);
+        }
     }
-}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnCetak;
